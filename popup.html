@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strava Route Comparison</title>
+  <style>
+    :root {
+      --strava-orange: #fc5200;
+      --strava-orange-dark: #e04a00;
+      --text-primary: #000000;
+      --text-secondary: #43423f;
+      --text-dark: #21211f;
+      --text-muted: #6d6d6d;
+      --bg-white: #ffffff;
+      --bg-light: #f7f7fa;
+      --bg-hover: hsl(0, 0%, 90%);
+      --border-color: #e0e0de;
+      --radius-md: 8px;
+    }
+
+    @font-face {
+      font-family: 'Boathouse';
+      src: local('Boathouse');
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 340px;
+      font-family: 'Boathouse', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      color: var(--text-primary);
+      background: var(--bg-white);
+    }
+
+    .header {
+      background: var(--strava-orange);
+      color: white;
+      padding: 18px 20px;
+    }
+
+    .header h1 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      letter-spacing: -0.2px;
+    }
+
+    .header p {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 16px;
+    }
+
+    .section {
+      margin-bottom: 16px;
+    }
+
+    .section h2 {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .race-list {
+      max-height: 240px;
+      overflow-y: auto;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+    }
+
+    .race-item {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.15s ease;
+    }
+
+    .race-item:last-child {
+      border-bottom: none;
+    }
+
+    .race-item:hover {
+      background: var(--bg-light);
+    }
+
+    .race-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .race-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .race-stats {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 3px;
+    }
+
+    .race-actions {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .race-move {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 6px;
+      opacity: 0.4;
+      transition: opacity 0.15s ease, background 0.15s ease;
+      font-size: 12px;
+      border-radius: 4px;
+      color: var(--text-secondary);
+    }
+
+    .race-move:hover:not(:disabled) {
+      opacity: 1;
+      background: var(--bg-hover);
+    }
+
+    .race-move:disabled {
+      opacity: 0.15;
+      cursor: not-allowed;
+    }
+
+    .race-delete {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 6px;
+      opacity: 0.4;
+      transition: opacity 0.15s ease;
+      font-size: 14px;
+      border-radius: 4px;
+    }
+
+    .race-delete:hover {
+      opacity: 1;
+      background: #fde2e4;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state p {
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    .instructions {
+      background: var(--bg-light);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .instructions ol {
+      margin-left: 18px;
+      padding: 0;
+    }
+
+    .instructions li {
+      margin-bottom: 6px;
+    }
+
+    .instructions li:last-child {
+      margin-bottom: 0;
+    }
+
+    .instructions strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .footer {
+      padding: 14px 16px;
+      background: var(--bg-light);
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .footer a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--strava-orange);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+
+    .footer a:hover {
+      color: var(--strava-orange-dark);
+    }
+
+    .footer a::after {
+      content: "→";
+      font-size: 14px;
+    }
+
+    /* Scrollbar */
+    .race-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .race-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .race-list::-webkit-scrollbar-thumb {
+      background: #d1d1d6;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Strava Route Comparison</h1>
+    <p>Compare training routes with race profiles</p>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <h2>Saved Races</h2>
+      <div id="race-list" class="race-list">
+        <div class="empty-state">
+          <p>No races saved yet</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>How to Use</h2>
+      <div class="instructions">
+        <ol>
+          <li>Open <strong>Strava Route Builder</strong></li>
+          <li>Set activity to <strong>Run</strong> or <strong>Trail Run</strong></li>
+          <li>Create or load a route</li>
+          <li>Use the sidebar to compare with saved races</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="https://www.strava.com/maps/create" target="_blank">Open Route Builder</a>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

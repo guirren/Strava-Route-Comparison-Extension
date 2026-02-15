@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bgGrad" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="rgb(201,65,0)"/>
+      <stop offset="100%" stop-color="#FC5200"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background with gradient -->
+  <rect width="1024" height="1024" rx="200" fill="url(#bgGrad)"/>
+
+  <!-- Strava A/chevron mark - solid white -->
+  <polygon points="512,110 760,480 648,480 512,278 376,480 264,480" fill="white"/>
+
+  <!-- Zig-zag elevation line - mint/teal -->
+  <polyline
+    points="150,880 310,670 450,770 600,550 740,650 900,420"
+    fill="none"
+    stroke="#4DFFD2"
+    stroke-width="52"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
