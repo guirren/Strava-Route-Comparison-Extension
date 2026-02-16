@@ -1,6 +1,6 @@
 # Strava Route Comparison Extension
 
-Compare your training routes against saved race profiles to see if you're training at the right intensity.
+Compare your Strava routes against saved race profiles. See if your training matches the elevation intensity of your target race - the extension calculates what your route's elevation would be at race distance and shows green/yellow/red feedback. Works on Strava's route builder for Run and Trail Run activities.
 
 ## Features
 
@@ -77,107 +77,6 @@ You should see:
 ### Step 6: Grant Permissions
 
 The extension only needs access to `strava.com`. This is automatically granted when you load it.
-
----
-
-## Testing Guide
-
-### Navigate to Strava Route Builder
-
-1. Go to: **https://www.strava.com/maps/create**
-2. Log in to your Strava account if needed
-3. Wait for the page to fully load
-
-### Test Checklist
-
-#### ✅ 1. Extension Loads
-- [ ] Sidebar appears on the right side of the screen
-- [ ] Header shows "Route Comparison" with orange background
-- [ ] Activity type badge shows "Checking activity type..."
-
-#### ✅ 2. Activity Type Detection
-- [ ] Change activity to "Trail Run" or "Run" using Strava's controls
-- [ ] Badge should turn green and show "Trail Run" or "Run"
-- [ ] Main content should become visible
-- [ ] Try switching to "Ride" - sidebar should show warning message
-
-#### ✅ 3. Route Data Extraction
-- [ ] Draw a route on the map (click to add points)
-- [ ] Distance should update in the sidebar (matching Strava's display)
-- [ ] Elevation Gain should show in meters
-- [ ] Elevation Loss should show in meters
-- [ ] "Draw a route to see comparison" message should disappear
-
-#### ✅ 4. Real-time Updates
-- [ ] Modify the route by dragging waypoints
-- [ ] Sidebar values should update within 1-2 seconds
-- [ ] Add more points to extend the route
-- [ ] Values should continue to update
-
-#### ✅ 5. Save as Race
-- [ ] Enter a race name (e.g., "Test Race")
-- [ ] Click "Save as Race"
-- [ ] Toast notification should appear: "Test Race saved"
-- [ ] Race should appear in dropdown
-- [ ] Try saving without a name - should show error
-
-#### ✅ 6. Dropdown Shows Races
-- [ ] Click the dropdown to see saved races
-- [ ] Format should be: "Race Name (44.3km, +1665m)"
-- [ ] Races should be sorted alphabetically
-
-#### ✅ 7. Race Selection Persistence
-- [ ] Select a race from dropdown
-- [ ] Refresh the page (Cmd+R)
-- [ ] Same race should still be selected
-- [ ] Comparison should still be visible
-
-#### ✅ 8. Equivalent Elevation Calculation
-- [ ] Select a saved race
-- [ ] Check the "(ekv: X m, +Y%)" display under elevation values
-- [ ] Verify calculation: `ekv = (race_elevation / race_distance) * route_distance`
-
-**Example:**
-- Race: 44.3 km, 1665m gain
-- Route: 10 km, 500m gain
-- Expected ekv: (1665 / 44.3) * 10 = 376m
-- Percentage: ((500 - 376) / 376) * 100 = +33%
-
-#### ✅ 9. Color Coding
-- [ ] **Green**: Within ±10% of equivalent (on target)
-- [ ] **Yellow**: 10-20% off (slightly off)
-- [ ] **Red**: More than 20% off (significantly different)
-
-Test by creating routes with different elevation profiles.
-
-#### ✅ 10. Delete Race
-- [ ] Select a race from dropdown
-- [ ] Click the trash icon (🗑️)
-- [ ] Confirm deletion in popup
-- [ ] Toast should show "Race deleted"
-- [ ] Race should disappear from dropdown
-
-#### ✅ 11. Manual Race Entry
-- [ ] Click "Show" next to "Add Race Manually"
-- [ ] Fill in all required fields:
-  - Race Name: "Manual Test"
-  - Distance: 50
-  - Elev. Gain: 2000
-  - Elev. Loss: 2000
-- [ ] Click "Add Race"
-- [ ] Race should appear in dropdown
-- [ ] Try submitting with invalid data - should show validation errors
-
-#### ✅ 12. Layout Integration
-- [ ] Sidebar should not overlap Strava's map
-- [ ] Strava's bottom stats bar should still be visible
-- [ ] Route drawing should still work normally
-- [ ] Strava's own UI controls should function
-
-#### ✅ 13. Works on Existing Routes
-- [ ] Open an existing saved route for editing
-- [ ] URL should be like: `strava.com/routes/123456/edit`
-- [ ] Sidebar should still appear and function
 
 ---
 
