@@ -58,7 +58,7 @@ Strava Route Comparison Extension/
 1. Click **"Load unpacked"** button (appears after enabling Developer mode)
 2. Navigate to your extension folder:
    ```
-   Documents/Dokumenty/06 Stepan/Claude/Projects/Strava Route Comparison Extension
+   MyFolder/Strava Route Comparison Extension
    ```
 3. Select the folder and click **"Select"** (or "Open")
 
